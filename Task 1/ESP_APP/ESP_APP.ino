@@ -63,7 +63,7 @@ void setup() {
     Serial.println('\n');
     
     // WIFI CONNECTION !!
-    WiFi.begin("iPhone 11", "Me5wme5w");             // Connect to the network
+    WiFi.begin(username, password);             // Connect to the network
     Serial.print("Connecting to ");
     Serial.print(username); Serial.println(" ...");
     
