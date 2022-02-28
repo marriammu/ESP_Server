@@ -27,7 +27,7 @@ def Data():
     df_data['strength']=data
     path = os.getcwd()
     filename = 'data.xlsx'
-    sheet_name = "lab"
+    sheet_name = "3201"
     if (os.path.exists(filename)) :
         wb = openpyxl.load_workbook(filename)
         if(not (sheet_name in wb.sheetnames)):
