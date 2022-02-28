@@ -1,8 +1,12 @@
-const express = require('express')
-var db = require('./Database.js')
+var express = require('express');
+var app = express();
+const cors = require('cors');
+var db = require('./Database.js');
 // express app
-const app = express();
 app.use(express.json());
+app.use(cors());
+//  var variable = JSON.parse(variable)
+
 // Server port
 var HTTP_PORT = 80;
 // Start server
@@ -19,25 +23,23 @@ app.get("/", (req, res, next) => {
 
   app.post("/Sensors/", (req, res, next) => {
     var errors = []; // error array
-    if (!req.body.reading) {
+    // console.log(req.body)
+    if (!req.body.reeding) {
       errors.push("No reading sent");
     }
     var SensorData = {
-      Temperature: req.body.Temperature,
-      Humidity: req.body.Humidity,
-      Time: new Date(),
-      // Time: req.body.Time,
+      Temperature: parseInt(req.body.Temperature),
+      Humidity: parseInt(req.body.Humidity),
+      Time: new Date().getTime(),
     };
-    console.log(SensorData)
-    var sql = "INSERT INTO Sensors (Temperature,Humedity,Time) VALUES (?,?,?)";
+    var sql = "INSERT INTO Sensors (Temperature,Humidity,Time) VALUES (?,?,?)";
     var parameters = [SensorData.Temperature,SensorData.Humidity, SensorData.Time];
     db.run(sql, parameters, function (err, result) {
       if (err) {
-
-        console.log("mariam")
         res.status(400).json({ error: err.message });
         return;
       }
+      console.log(SensorData)
       res.json({
         message: "success",
         data: SensorData,
@@ -59,21 +61,6 @@ app.get("/", (req, res, next) => {
         message: "success",
         data: rows,
       });
-    });
-  });
-
-  app.post("/toggleLed",(req, res)=>{
-    toggle = !toggle;
-    console.log(toggle);
-    res.json({
-      message: "success",
-    });
-  });
-
-  app.get("/toggleLed",(req, res)=>{
-    res.json({
-      message: "success",
-      data : toggle
     });
   });
   

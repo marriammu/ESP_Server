@@ -1,6 +1,6 @@
 var sqlite3 = require("sqlite3").verbose();
 
-const Databases = "db.sqlite";
+const Databases = "Database.db";
 
 let db = new sqlite3.Database(Databases, (err) => {
   if (err) 
@@ -10,7 +10,11 @@ let db = new sqlite3.Database(Databases, (err) => {
   else {
     console.log("Connected to the Database database in sqlite.");
     db.run(
-      `CREATE TABLE Sensors (ID INTEGER PRIMARY KEY AUTOINCREMENT,Temperature text, Humedity text, Time text)`,
+      `CREATE TABLE Sensors (
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        Temperature INTEGER,
+         Humidity INTEGER, 
+         Time INTEGER)`,
             console.log('Table Created'),
             (err) => {
                 if (err) {
