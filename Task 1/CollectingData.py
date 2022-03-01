@@ -3,48 +3,30 @@ from cProfile import label
 from itertools import count
 import json
 import os
+import re
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import pandas as pd
+import numpy as np
 import openpyxl
-
+import pickle
+WifiReadings=[]
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/Readings', methods=['POST'])
 def Data():
-    count = 0
     request_data = request.get_json()
-    data = [] 
-    names=[]
-    labels=[]
-    data.append(request_data['strength'])
-    names.append(request_data['name'])
-    labels.append(request_data['label'])
-    print(data)
-    df_data = pd.DataFrame(labels, columns=['label'])
-    df_data['name']=names
-    df_data['strength']=data
-    path = os.getcwd()
-    filename = 'data.xlsx'
-    sheet_name = "3201"
-    if (os.path.exists(filename)) :
-        wb = openpyxl.load_workbook(filename)
-        if(not (sheet_name in wb.sheetnames)):
-            wb.create_sheet(sheet_name)
-        ws = wb.active
-        row=ws.max_row
-        ws.cell(column=1, row=row+1,value=labels[0])
-        ws.cell(column=2, row=row+1,value=names[0])
-        ws.cell(column=3, row=row+1, value=data[0])
-        count=count+1
-        wb.save(filename)
-    else:
-        df_data.to_excel(filename, index=False, sheet_name=sheet_name)
-    print(data)    
-    print(names)    
-    return jsonify(data)
+    WifiReadings.append(request_data['strength'])
+    WifiReadings.append(request_data['data'])
+    print(jsonify(WifiReadings))    
+    return jsonify(WifiReadings)
 
+@app.route('/Readings', methods=['GET'])
+def GetData():
+    label = {"label":10}    
+    print(label)
+    return jsonify(label)
 
 if __name__ == "__main__":
-    app.run(host="***.**.**.**", port=80, debug=True)
+    app.run(host="192.168.1.3", port=80, debug=True)
