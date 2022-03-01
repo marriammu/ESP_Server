@@ -10,6 +10,7 @@ app.use(cors());
 // Server port
 var HTTP_PORT = 80;
 // Start server
+//,'192.168.1.3'
 app.listen(HTTP_PORT, () => {
   console.log("Server running on port %PORT%".replace("%PORT%", HTTP_PORT));
 });
@@ -28,10 +29,11 @@ app.get("/", (req, res, next) => {
       errors.push("No reading sent");
     }
     var SensorData = {
-      Temperature: parseInt(req.body.Temperature),
-      Humidity: parseInt(req.body.Humidity),
+      Temperature: req.body.Temperature,
+      // Humidity: parseInt(req.body.Humidity),
       Time: new Date().getTime(),
     };
+    console.log(SensorData)
     var sql = "INSERT INTO Sensors (Temperature,Humidity,Time) VALUES (?,?,?)";
     var parameters = [SensorData.Temperature,SensorData.Humidity, SensorData.Time];
     db.run(sql, parameters, function (err, result) {
@@ -39,7 +41,7 @@ app.get("/", (req, res, next) => {
         res.status(400).json({ error: err.message });
         return;
       }
-      console.log(SensorData)
+      
       res.json({
         message: "success",
         data: SensorData,

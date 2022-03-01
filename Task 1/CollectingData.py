@@ -8,20 +8,39 @@ import pickle
 WifiReadings=[]
 app = Flask(__name__)
 CORS(app)
-
+model = pickle.load(open('model.pkl','rb'))
 @app.route('/Readings', methods=['POST'])
 def Data():
+    WifiReadings.clear()
     request_data = request.get_json()
-    WifiReadings.append(request_data['strength'])
-    WifiReadings.append(request_data['data'])
-    print(jsonify(WifiReadings))    
+    WifiReadings.append(request_data['STUDBME2'])
+    WifiReadings.append(request_data['Aalaa Tarek'])
+    WifiReadings.append(request_data['Amira'])
+    WifiReadings.append(request_data['Esraa'])
+    WifiReadings.append(request_data['STUDBME1'])
+    WifiReadings.append(request_data['Sbme-Staff'])
+    WifiReadings.append(request_data['RehabLab'])
+    WifiReadings.append(request_data['CMP_LAB1'])
+    WifiReadings.append(request_data['CMP_LAB3'])
+    WifiReadings.append(request_data['Gadgooda'])
+    # WifiReadings.append(request_data['iPhone 11'])
+    NpWifiReadings=np.array(WifiReadings)
+    print(NpWifiReadings)
+    prediction = model.predict([NpWifiReadings])
+    global output 
+    output = np.int(prediction[0])
+    
+    print(type(1))
+     
     return jsonify(WifiReadings)
 
 @app.route('/Readings', methods=['GET'])
 def GetData():
-    label = {"label":10}    
+ 
+    label = {"label": output}    
     print(label)
-    return jsonify(label)
+
+    return (jsonify(label))
 
 if __name__ == "__main__":
     app.run(host="192.168.1.3", port=80, debug=True)
