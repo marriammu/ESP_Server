@@ -3,7 +3,7 @@ from cProfile import label
 from itertools import count
 import json
 import os
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request , make_response
 from flask_cors import CORS
 import pandas as pd
 import openpyxl
@@ -11,7 +11,7 @@ import openpyxl
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/Readings', methods=['POST'])
+@app.route('/Readings', methods=["POST"])
 def Data():
     count = 0
     request_data = request.get_json()
@@ -41,10 +41,13 @@ def Data():
         wb.save(filename)
     else:
         df_data.to_excel(filename, index=False, sheet_name=sheet_name)
-    print(data)    
-    print(names)    
-    return jsonify(data)
-
+    
+    return jsonify(data1)
+@app.route('/Readings', methods=['GET'])
+def GetData():
+    data1 = {"data":10}    
+    print(data1)
+    return jsonify(data1)
 
 if __name__ == "__main__":
-    app.run(host="***.**.**.**", port=80, debug=True)
+    app.run(host="172.28.130.32", port=80, debug=True)
