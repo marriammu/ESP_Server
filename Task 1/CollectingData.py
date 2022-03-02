@@ -43,4 +43,4 @@ def GetData():
     return (jsonify(label))
 
 if __name__ == "__main__":
-    app.run(host="192.168.1.3", port=80, debug=True)
+    app.run(host="IP Address", port=80, debug=True)
