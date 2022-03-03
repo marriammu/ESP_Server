@@ -13,9 +13,10 @@ model = pickle.load(open('model.pkl','rb'))
 def Data():
     WifiReadings.clear()
     request_data = request.get_json()
+    print(request_data)
     WifiReadings.append(request_data['STUDBME2'])
     WifiReadings.append(request_data['Aalaa Tarek'])
-    WifiReadings.append(request_data['Amira'])
+    WifiReadings.append(request_data['khaleesiH'])
     WifiReadings.append(request_data['Esraa'])
     WifiReadings.append(request_data['STUDBME1'])
     WifiReadings.append(request_data['Sbme-Staff'])
@@ -27,13 +28,11 @@ def Data():
     NpWifiReadings=np.array(WifiReadings)
     print(NpWifiReadings)
     prediction = model.predict([NpWifiReadings])
-    global output 
-    output = np.int(prediction[0])
-    
-    print(type(1))
-     
+    global output     
+    output = int(prediction[0])
+    print("label")
+    print(output)     
     return jsonify(WifiReadings)
-
 @app.route('/Readings', methods=['GET'])
 def GetData():
  
@@ -43,4 +42,4 @@ def GetData():
     return (jsonify(label))
 
 if __name__ == "__main__":
-    app.run(host="192.168.1.3", port=80, debug=True)
+    app.run(host="**********", port=80, debug=True)
