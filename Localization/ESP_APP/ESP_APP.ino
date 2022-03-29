@@ -9,7 +9,7 @@
 
 const char *ssid = "STUDBME2"; //Enter your WIFI ssid
 const char *password = "BME2Stud"; //Enter your WIFI password
-const char *server_url = "http://*************:80/Readings";// Nodejs application endpoint
+const char *server_url = "http://192.168.1.6:80/Readings";// Nodejs application endpoint
 
 // Set up the client objet
 WiFiClient client;
@@ -27,7 +27,7 @@ int s_len = sizeof(scanned_ssids)/sizeof(scanned_ssids[0]);
 int s_index = 0;          // index for scanned_ssids
 int w_index = 0;          // index for saved_networks
 
-StaticJsonBuffer<10000> jsonBuffer;
+StaticJsonBuffer<2000> jsonBuffer;
 
 
 void setup()
@@ -35,15 +35,15 @@ void setup()
     // Debug console
     delay(10000);
     Serial.begin(9600);
-    Serial.println("DATA,D,STUDBME2,Aalaa Tarek,khaleesiH,Esraa,STUDBME1,Sbme-Staff,RehabLab,CMP_LAB1,CMP_LAB3,Gadgooda,Label");
+    Serial.println("DATA,STUDBME2,Aalaa Tarek,khaleesiH,Esraa,STUDBME1,Sbme-Staff,RehabLab,CMP_LAB1,CMP_LAB3,Gadgooda,Label");
 
-     WiFi.begin(ssid, password);
+     WiFi.begin("Lola","lola##**");
      while (WiFi.status() != WL_CONNECTED) {
       delay(500);
       Serial.print(".");
      }
      Serial.println("WiFi connected");
-     delay(1000);
+//     delay(1000);
 }
 
 void loop()
@@ -95,7 +95,7 @@ void loop()
     Serial.println();
     
     // Wait a bit before scanning again
-    delay(2000);
+    delay(500);
     WiFi.scanDelete();  
 
    values[saved_networks[1]] = rssi_values[1] ;
@@ -114,7 +114,7 @@ void loop()
 
     http.begin(client, server_url);
     http.addHeader("Content-Type", "application/json");
-    char arr[5000];
+    char arr[500];
   values.prettyPrintTo(arr, sizeof(arr));
     int httpCode = http.POST(arr);
       
@@ -130,6 +130,7 @@ void loop()
          Serial.println();
     }
     http.end();
+    delay(5000);
 
    
 }
@@ -151,4 +152,4 @@ int findElement(String arr[], int n, String val)
         }
     }
     return indx;
-}}
+}

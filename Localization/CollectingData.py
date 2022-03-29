@@ -24,22 +24,25 @@ def Data():
     WifiReadings.append(request_data['CMP_LAB1'])
     WifiReadings.append(request_data['CMP_LAB3'])
     WifiReadings.append(request_data['Gadgooda'])
-    # WifiReadings.append(request_data['iPhone 11'])
-    NpWifiReadings=np.array(WifiReadings)
-    print(NpWifiReadings)
-    prediction = model.predict([NpWifiReadings])
-    global output     
+    prediction = model.predict([WifiReadings])
+    global output
     output = int(prediction[0])
     print("label")
-    print(output)     
+    print(output)
+    # WifiReadings.append(request_data['iPhone 11'])
+    # global NpWifiReadings
+    # NpWifiReadings=np.array(WifiReadings)
+    # print(NpWifiReadings)     
     return jsonify(WifiReadings)
+# if(len(WifiReadings)!=0):
+    
+
 @app.route('/Readings', methods=['GET'])
 def GetData():
  
     label = {"label": output}    
-    print(label)
-
+    # print(label)
     return (jsonify(label))
 
 if __name__ == "__main__":
-    app.run(host="**********", port=80, debug=True)
+    app.run(host="192.168.1.6", port=80, debug=True)
