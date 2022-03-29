@@ -33,11 +33,11 @@ def rotate_img(image):
     return cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
 
 def Thresholding(Image,Low,High):
-    ShowImage(Image)
+    # ShowImage(Image)
     HSVImage = cv2.cvtColor(Image, cv2.COLOR_RGB2HSV)
-    ShowImage(HSVImage)
+    # ShowImage(HSVImage)
     ImageMask=cv2.inRange(HSVImage, Low, High)
-    ShowImage(ImageMask)
+    # ShowImage(ImageMask)
     return ImageMask
 
 def EdgeDetection(Image):
@@ -56,7 +56,7 @@ def CropLines(Edges):
         np.int32)
     cv2.fillPoly(BlackImage, Polygon, 255)
     HalfImage = cv2.bitwise_and(Edges, BlackImage)
-    ShowImage(HalfImage)
+    # ShowImage(HalfImage)
     return HalfImage  
 
 ##################################################################
@@ -94,7 +94,7 @@ def AverageSlopeIntercept(Image, LineSegmets):
     leftFit = []
     rightFit = []
 
-    boundary = 1/3
+    boundary = 1/2
     leftRegionBoundary = ColumnsNumber * (1 - boundary)
     rightRegionBoundary = ColumnsNumber * boundary
 
@@ -189,7 +189,7 @@ def displayHeadingLine(Image, steeringAngle, lineColor=(0, 0, 255), lineWidth=15
 
     cv2.line(headingImage, (x1, y1), (x2, y2), lineColor, lineWidth)
     headingImage = cv2.addWeighted(Image, 0.8, headingImage, 1, 1)
-    ShowImage(headingImage)
+    # ShowImage(headingImage)
     return headingImage
 
 # low=np.array([60,40,40])
