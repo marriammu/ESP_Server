@@ -14,7 +14,7 @@ def main():
 
 @app.route('/DetectAngle', methods=['GET'])
 def process():
-    # image=plt.imread('3.png')
+    # image=plt.imread('6.png')
     # image=np.multiply(image,255)
     # image = image.astype('uint8')
     image=GetImageFromMobile()
@@ -22,16 +22,21 @@ def process():
     laneLinesImage = LinesDisplaying(image, laneLines)
     steeringAngle= SteeringAngle(image, laneLines)
     currentAngle = steeringAngle
+    print(currentAngle)
     finalImage = displayHeadingLine(laneLinesImage, currentAngle)
 
-    if (0<=currentAngle<=30 or 150<=currentAngle<=180):
-        currentAngle=0 
-    elif (30<currentAngle<=75):
+
+    # if (0<=currentAngle<=30 or 150<=currentAngle<=180):
+    #     currentAngle=0 
+
+    if (30<=currentAngle<80):
         currentAngle=45   
     elif (105<=currentAngle<150): 
         currentAngle=135         
-    else :
+    elif (80<=currentAngle<100):
         currentAngle=90
+    else:
+        currentAngle=0    
 
         
     resultJSON = {"angle": currentAngle}
